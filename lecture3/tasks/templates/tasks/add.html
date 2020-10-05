@@ -1,7 +1,13 @@
 {% extends "tasks/layout.html" %} {% block body%}
 <h1>Add Task</h1>
-<form>
+<!-- submit form to task:add url and use post method to send data to add route -->
+<form action="{% url 'tasks:add' %}" method="post">
+  <!-- csrf verification -->
+  {% csrf_token %}
   <input type="text" name="task" />
   <input type="submit" />
 </form>
+<!-- namespace the url -->
+<a href="{% url 'tasks:index' %}">View Tasks</a>
+
 {% endblock %}
