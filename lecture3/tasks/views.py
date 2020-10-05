@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-tasks = []
+
 
 # new class to represent form
 class NewTaskForm(forms.Form):
@@ -16,8 +16,12 @@ class NewTaskForm(forms.Form):
 
 # Create your views here.
 def index(request):
+    # is there already a list of task in the session, if not, create an empty list and set it to request.session["tasks"]
+    if "tasks" not in request.session:
+        request.session["tasks"] = []
+
     return render(request, "tasks/index.html", {
-        "tasks": tasks
+        "tasks": request.session["tasks"]
     })
 
 def add(request):
@@ -28,7 +32,7 @@ def add(request):
         # validation function
         if form.is_valid():
            task = form.cleaned_data["task"]
-           tasks.append(task)
+           request.session["tasks"] += [task]
            return HttpResponseRedirect(reverse("tasks:index"))
         else:
             return render(request, "tasks/add.html", {
