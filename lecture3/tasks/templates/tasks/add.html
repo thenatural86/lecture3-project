@@ -4,7 +4,8 @@
 <form action="{% url 'tasks:add' %}" method="post">
   <!-- csrf verification -->
   {% csrf_token %}
-  <input type="text" name="task" />
+  <!-- use form passed in as context -->
+  {{ form }}
   <input type="submit" />
 </form>
 <!-- namespace the url -->
