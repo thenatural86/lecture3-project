@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 
-
 # new class to represent form
 class NewTaskForm(forms.Form):
     # define all the fields i want the form to have
@@ -24,6 +23,7 @@ def index(request):
         "tasks": request.session["tasks"]
     })
 
+
 def add(request):
     # server side validation
     if request.method == "POST":
@@ -31,9 +31,9 @@ def add(request):
         form = NewTaskForm(request.POST)
         # validation function
         if form.is_valid():
-           task = form.cleaned_data["task"]
-           request.session["tasks"] += [task]
-           return HttpResponseRedirect(reverse("tasks:index"))
+            task = form.cleaned_data["task"]
+            request.session["tasks"] += [task]
+            return HttpResponseRedirect(reverse("tasks:index"))
         else:
             return render(request, "tasks/add.html", {
                 "form": form
